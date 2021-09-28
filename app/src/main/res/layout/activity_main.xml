@@ -34,6 +34,12 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/editcmds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Commands" />
+
+    <Button
         android:id="@+id/host"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
