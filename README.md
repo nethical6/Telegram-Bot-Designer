@@ -18,5 +18,8 @@ Once created just copy the token and paste it into the app</p>
 # Issues
 The app is still being developed actively. It's in beta stage and may not be stable. if you have any issues using the app, please let us know.
 
+## known issues
+The app is still being developed actively. It's in beta stage and may not be stable. if you have any issues using the app, please let us know.
+
 # Developers
 - Nethical ([**@RealNethical**](https://github.com/RealNethical))
