@@ -18,8 +18,5 @@ Once created just copy the token and paste it into the app</p>
 # Issues
 The app is still being developed actively. It's in beta stage and may not be stable. if you have any issues using the app, please let us know.
 
-## known issues
-- Once the bot is hosted . The only way to stop hosting it is to *Force stop* the app which is available in many devices. we need contributors to help fix this issue.
-
 # Developers
 - Nethical ([**@RealNethical**](https://github.com/RealNethical))

@@ -39,11 +39,14 @@
         android:layout_height="wrap_content"
         android:text="Edit Commands" />
 
-    <Button
-        android:id="@+id/host"
+    <ToggleButton
+        android:id="@+id/hostbot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btn_host"
-        android:text="Host" />
+        android:background="@color/purple_500"
+        android:text="host"
+        android:textColor="@color/white"
+        android:textOff="Host"
+        android:textOn="Stop Hosting" />
 
 </LinearLayout>

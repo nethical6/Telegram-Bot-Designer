@@ -1,9 +1,7 @@
 package nethical.tbd;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,14 +15,10 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static nethical.tbd.MainActivity.logs;
+public class TelegramS {
+    final Context context;
 
-public class TelegramS {        //do heavy work on a background thread
-        //stopSelf();
-
-    private Context context;
-
-    private String bot_tokenz = MainActivity.bot_tokenz;
+    final String bot_token = MainActivity.bot_token;
 
     private HashMap<String, Object> map = new HashMap<>();
     private String data = "";
@@ -33,13 +27,13 @@ public class TelegramS {        //do heavy work on a background thread
     private HashMap<String, Object> map4 = new HashMap<>();
     private String chatid = "";
     private ArrayList<HashMap<String, Object>> updates = new ArrayList<>();
-    private SharedPreferences handledUpdates = MainActivity.handledUpdates;
+    final SharedPreferences handledUpdates = MainActivity.handledUpdates;
     public TelegramS(Context context){
         this.context = context;
     }
     public void polling(){
         RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://api.telegram.org/bot".concat(bot_tokenz.concat("/getUpdates")),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://api.telegram.org/bot" + bot_token.concat("/getUpdates"),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -54,7 +48,7 @@ public class TelegramS {        //do heavy work on a background thread
                         updates = new Gson().fromJson(data, new TypeToken<ArrayList<HashMap<String, Object>>>() {
                         }.getType());
                         if (updates.size() == 0) {
-                            map2 = updates.get((0));
+                            map2 = updates.get((1));
                         } else {
                             map2 = updates.get((int) updates.size() - 1);
                         }
@@ -74,15 +68,13 @@ public class TelegramS {        //do heavy work on a background thread
                         chatid = map4.get("id").toString();
 
                         // for some reason the output is in a scientific notation so we need to convert it to normal integer
-                        int val = new Double(chatid).intValue();
+                        int val = Double.valueOf(chatid).intValue();
 
-                        // finds whether the incomming message is handled
+                        // finds whether the incoming message is handled
                         if (!handledUpdates.getString("handle", "").equals(map2.get("update_id").toString())) {
                             handledUpdates.edit().putString("handle", map2.get("update_id").toString()).commit();
-                            // send message according to trigger
                             if (map3.get("text").toString().contains("/start")) {
-//                                logs.setText("message recieved");
-                                sendMessage(bot_tokenz,"sent from TBD",Integer.toString(val));
+                                sendMessage(bot_token,"sent from TBD",Integer.toString(val));
                             }
                         } else {
                             polling();
@@ -91,7 +83,6 @@ public class TelegramS {        //do heavy work on a background thread
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//                logs.setText(logs.getText().toString().concat("\n" + error.toString()));
                 polling();
             }
         });
@@ -102,19 +93,16 @@ public class TelegramS {        //do heavy work on a background thread
 
     public void sendMessage(String token,String msg, String chatid){
         String url = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chatid + "&text=" + msg;
-//        logs.setText(url);
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        logs.setText(logs.getText().toString().concat("\n"+response));
                         polling();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//                logs.setText(logs.getText().toString().concat("\n" + error.toString()));
                 polling();
             }
         });
